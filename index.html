@@ -469,7 +469,7 @@
       statusEl.textContent = '';
 
       try{
-        await window.storage.set('last-location', JSON.stringify({lat, lon, label}), false);
+        localStorage.setItem('last-location', JSON.stringify({lat, lon, label}));
       }catch(e){ /* storage optional */ }
     }catch(e){
       statusEl.textContent = 'Wetterdaten konnten nicht geladen werden.';
@@ -505,9 +505,9 @@
 
   async function initWeather(){
     try{
-      const stored = await window.storage.get('last-location', false);
-      if(stored && stored.value){
-        const loc = JSON.parse(stored.value);
+      const stored = localStorage.getItem('last-location');
+      if(stored){
+        const loc = JSON.parse(stored);
         await loadWeather(loc.lat, loc.lon, loc.label);
         return;
       }
@@ -564,15 +564,15 @@
 
   async function saveTodos(){
     try{
-      await window.storage.set('todos', JSON.stringify(todos), false);
+      localStorage.setItem('todos', JSON.stringify(todos));
     }catch(e){ /* storage optional */ }
   }
 
   async function loadTodos(){
     try{
-      const stored = await window.storage.get('todos', false);
-      if(stored && stored.value){
-        todos = JSON.parse(stored.value);
+      const stored = localStorage.getItem('todos');
+      if(stored){
+        todos = JSON.parse(stored);
       }
     }catch(e){ /* none stored yet */ }
     renderTodos();
@@ -649,14 +649,14 @@
   }
 
   async function saveExams(){
-    try{ await window.storage.set('exams', JSON.stringify(exams), false); }
+    try{ localStorage.setItem('exams', JSON.stringify(exams)); }
     catch(e){ /* storage optional */ }
   }
 
   async function loadExams(){
     try{
-      const stored = await window.storage.get('exams', false);
-      if(stored && stored.value){ exams = JSON.parse(stored.value); }
+      const stored = localStorage.getItem('exams');
+      if(stored){ exams = JSON.parse(stored); }
     }catch(e){ /* none stored yet */ }
     renderExams();
   }
